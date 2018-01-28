@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>Conversation</title>
+	</head>
+	<body >
+		Enter text and hit submit to get response.<br>
+		<input type="text" id="input_text" >
+	    <button type="button" onclick="
+	    	var text = document.getElementById('input_text').value;
+	        var request = new XMLHttpRequest();
+	        request.onreadystatechange=function(){
+	            if(request.readyState==4){
+	                if(request.status==200)
+	                    document.getElementById('resp').innerHTML='watson says:- '+request.responseText;
+	                else
+	                    alert('something went wrong');
+	            }
+	            
+	        };
+	        request.open('POST','/send', true);
+	        request.setRequestHeader('Content-Type','application/json');
+	        request.send(JSON.stringify({text:text})); 
+	    ">submit</button>
+	    <div id='resp'>watson says:- Hi. It looks like a nice drive today. What would you like me to do?</div>
+	</body>
+</html>

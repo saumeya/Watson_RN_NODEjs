@@ -1,0 +1,17 @@
+{
+  "name": "watson-bot-example",
+  "version": "1.0.0",
+  "description": "simple-watson-conversation-app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "ashish",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "watson-developer-cloud": "^3.0.3"
+  }
+}
