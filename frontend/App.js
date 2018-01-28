@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import {
     Text,
     View,
@@ -6,14 +7,6 @@ import {
     TextInput,
     FlatList,
 } from 'react-native'
-// import AWS from 'aws-sdk/dist/aws-sdk-react-native'
-// // Initialize the Amazon Cognito credentials provider
-// AWS.config.region = 'us-east-1' // Region
-// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-//     IdentityPoolId: 'Your-Pool-ID-8673',
-// })
-// let lexRunTime = new AWS.LexRuntime()
-// let lexUserId = 'mediumBot' + Date.now()
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -93,45 +86,14 @@ this.sendtoserver(inputText)
 
     }
 sendtoserver(message){
-  var text = message
-  var request = new XMLHttpRequest();
+  var text = message;
+  axios.post('https://chat.calloused47.hasura-app.io/send', { text: text })
+    .then(response => this.showResponse(response));
   console.log('request done');
-request.onreadystatechange = (e) => {
-  if (request.readyState !== 4) {
-    return;
-  }
 
-  if (request.status === 200) {
-    console.log('success', request.responseText);
-  } else {
-    console.warn('error2');
-  }
-};
-console.log(text);
-request.open('POST','http://192.168.56.1:8080/send', true);
-//request.open('GET', 'https://mywebsite.com/endpoint/');
- request.setRequestHeader('Content-Type','application/json');
-request.send(JSON.stringify({text:text}));
 }
-// Responsible for sending message to lex
-    // sendToLex(message) {
-    //     let params = {
-    //         botAlias: '$LATEST',
-    //         botName: 'Your-Bot-Name',
-    //         inputText: message,
-    //         userId: lexUserId,
-    //     }
-    //     lexRunTime.postText(params, (err, data) => {
-    //         if(err) {
-    //             // TODO SHOW ERROR ON MESSAGES
-    //         }
-    //         if (data) {
-    //             this.showResponse(data)
-    //         }
-    //     })
-    // }
 showResponse(lexResponse) {
-        let lexMessage = lexResponse.message
+        let lexMessage = lexResponse.data;
         let oldMessages = Object.assign([], this.state.messages)
         oldMessages.push({from: 'bot', msg: lexMessage})
         this.setState({
