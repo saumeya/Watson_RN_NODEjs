@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import axios from 'axios';
 import {
     Text,
+    AsyncStorage,
     ScrollView,
     KeyboardAvoidingView,
     ImageBackground,
@@ -74,11 +75,26 @@ userMessages: {
 export default class ChatUI extends Component {
     constructor(props) {
         super(props)
-    this.state = {
-            userInput: '',
-            messages: [],
-            inputEnabled: true,
-        }
+        this.state = {
+          userInput: '',
+          messages: [],
+          inputEnabled: true,
+        };
+    }
+
+    componentDidMount() {
+      AsyncStorage.getItem('msgs')
+        .then(req => JSON.parse(req))
+        .then(json => this.setState({messages:Object.assign([], json)}))
+        //.then(json => console.log(json))
+        .catch(error => console.log("Persistence ERROR!"));
+    }
+
+    updateStorage() {
+      const msgArr = JSON.stringify(this.state.messages);
+      AsyncStorage.setItem('msgs', msgArr)
+        .then()
+        .catch(error => console.log('State Inpersistent!'));
     }
 // Sends Text to the lex runtime
     handleTextSubmit() {
@@ -96,24 +112,25 @@ export default class ChatUI extends Component {
             userInput: '',
             inputEnabled: true
         })
-this.sendtoserver(inputText)
-
+        this.sendtoserver(inputText);
+        this.updateStorage();
     }
 sendtoserver(message){
   var text = message;
-  axios.post('https://chat.calloused47.hasura-app.io/send', { text: text })
+  axios.post('https://chat.calloused47.hasura-app.io/send', { text:text })
     .then(response => this.showResponse(response));
   console.log('request done');
 
 }
 showResponse(lexResponse) {
-        let lexMessage = lexResponse.data;
+        let lexMessage = lexResponse.data[0];
         let oldMessages = Object.assign([], this.state.messages)
         oldMessages.push({from: 'bot', msg: lexMessage})
         this.setState({
             messages: oldMessages,
             inputEnabled: true
         })
+        this.updateStorage();
     }
 renderTextItem(item) {
         let style,
@@ -162,7 +179,7 @@ render(){
                 <KeyboardAvoidingView style={styles.messages}>
                     <FlatList
                         data={this.state.messages}
-                        renderItem={({ item }) =>    this.renderTextItem(item)}
+                        renderItem={({ item }) => this.renderTextItem(item)}
                         keyExtractor={(item, index) => index}
                         extraData={this.state.messages}
                     />
@@ -174,9 +191,10 @@ render(){
                       value={this.state.userInput}
                       underlineColorAndroid={'transparent'}
                       style={styles.textInput}
+                      autoCorrect
                       editable={this.state.inputEnabled}
                       placeholder={'Type here to talk!'}
-                      autoFocus={true}
+                      autoFocus={false}
                       onSubmitEditing={this.handleTextSubmit.bind(this)}
                   />
               </View>
