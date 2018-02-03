@@ -8,8 +8,13 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "firebase": "^4.9.0",
+    "native-base": "^2.3.7",
     "react": "16.2.0",
-    "react-native": "0.52.2"
+    "react-native": "0.52.2",
+    "react-native-keyboard-aware-scrollview": "^2.0.0",
+    "react-native-keyboard-aware-view": "0.0.14",
+    "react-native-pop-menu": "0.0.9"
   },
   "devDependencies": {
     "babel-jest": "22.1.0",
