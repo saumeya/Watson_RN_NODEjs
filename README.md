@@ -2,7 +2,7 @@
 
 
 ## DEMO App (Android) 
-![DEMO](https://user-images.githubusercontent.com/17771352/35780280-e73d1f38-09fe-11e8-887b-47649d7f7b29.gif)
+![DEMO](https://user-images.githubusercontent.com/17771352/35780363-35916a58-0a00-11e8-8da8-222f22ed20cc.gif)
 
 ## Install at local
 ### Open Terminal, then type command:
