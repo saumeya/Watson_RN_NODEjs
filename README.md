@@ -7,11 +7,11 @@
 ## Install at local
 ### Open Terminal, then type command:
 
-`git clone https://github.com/saumeya/HPDF-ReactNative-TwitterClone.git`
+`git clone https://github.com/saumeya/Watson_RN_NODEjs.git`
 
 ### Go to project folder :
 
-`cd HPDF-ReactNative-TwitterClone`
+`cd Watson_RN_NODEjs`
 
 ### Type following command :
 
